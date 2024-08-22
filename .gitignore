@@ -45,3 +45,4 @@ replay_pid*
 *.cover
 *.env
 *.venv
+/.idea/
