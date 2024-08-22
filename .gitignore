@@ -22,3 +22,26 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+#Intellij IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+*.iws.iml
+*.tmp
+*.swp
+*.swo
+*.bak
+*.orig
+*.rej
+*.out
+*.pyc
+*.pyo
+*.pyd
+*.pytest_cache/
+*.pytest_cache
+*.coverage
+*.cover
+*.env
+*.venv
