@@ -17,6 +17,12 @@ public class User {
     @Column(name = "profile_picture")
     private String profile_picture;
 
+    public User(String username, String password, String profile_picture) {
+        this.username = username;
+        this.password = password;
+        this.profile_picture = profile_picture;
+    }
+
     public User() {
     }
 
@@ -44,11 +50,11 @@ public class User {
         this.password = password;
     }
 
-    public String getProfile_picture() {
+    public String getProfilePicture() {
         return profile_picture;
     }
 
-    public void setProfile_picture(String profile_picture) {
+    public void setProfilePicture(String profile_picture) {
         this.profile_picture = profile_picture;
     }
 }
