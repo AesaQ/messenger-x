@@ -5,4 +5,6 @@ import ru.aesaq.messengerx.authservice.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
     User getUserById(Long id);
+
+    User findUserByUsername(String username);
 }
