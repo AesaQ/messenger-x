@@ -12,8 +12,8 @@ public class Card {
     private Long id;
     @Column(name = "creator")
     private String creator;
-    @Column(name = "under-study")
-    private String underStudy;
+    @Column(name = "study")
+    private String study;
     @Column(name = "answer")
     private String answer;
     @Column(name = "example1")
@@ -39,12 +39,12 @@ public class Card {
         this.creator = creator;
     }
 
-    public String getUnderStudy() {
-        return underStudy;
+    public String getStudy() {
+        return study;
     }
 
-    public void setUnderStudy(String underStudy) {
-        this.underStudy = underStudy;
+    public void setStudy(String study) {
+        this.study = study;
     }
 
     public String getAnswer() {

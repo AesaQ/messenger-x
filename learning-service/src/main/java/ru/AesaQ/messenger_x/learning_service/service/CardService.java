@@ -14,8 +14,8 @@ public class CardService {
 
     public String createCard(Card cardWithoutId) {
         Card card = new Card();
-        card.setCreater(cardWithoutId.getCreater());
-        card.setUnderStudy(cardWithoutId.getUnderStudy());
+        card.setCreator(cardWithoutId.getCreator());
+        card.setStudy(cardWithoutId.getStudy());
         card.setAnswer(cardWithoutId.getAnswer());
         card.setExample1(cardWithoutId.getExample1());
         card.setExample2(cardWithoutId.getExample2());
