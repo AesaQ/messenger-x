@@ -1,9 +1,6 @@
 package ru.AesaQ.messenger_x.learning_service.controller;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.AesaQ.messenger_x.learning_service.entity.Card;
 import ru.AesaQ.messenger_x.learning_service.service.CardService;
 
@@ -17,7 +14,20 @@ public class CardController {
     }
 
     @PostMapping("/create")
-    public String createCard(@RequestBody Card card) {
-        return cardService.createCard(card);
+    public String createCard(@RequestBody Card card, @RequestHeader("Authorization") String token) {
+        token = token.replace("Bearer ", "");
+        return cardService.createCard(card, token);
+    }
+
+    @DeleteMapping("/remove/{id}")
+    public String removeCard(@PathVariable Long id, @RequestHeader("Authorization") String token) {
+        token = token.replace("Bearer ", "");
+        return cardService.removeCard(id, token);
+    }
+
+    @PutMapping("/edit/{id}")
+    public String editCard(@PathVariable Long id, @RequestBody Card card, @RequestHeader("Authorization") String token) {
+        token = token.replace("Bearer ", "");
+        return cardService.editCard(id, card, token);
     }
 }
