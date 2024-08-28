@@ -47,7 +47,7 @@ public class CardService {
             return "Something went wrong...";
         }
         if (!card.getCreator().equals(username)) {
-            return "nah.. you can't";
+            return "nah.. you can't do this";
         }
         cardRepository.removeById(id);
         return "ok";
@@ -59,7 +59,7 @@ public class CardService {
         Card originalCard = cardRepository.getCardById(id);
 
         if (!originalCard.getCreator().equals(editor)) {
-            return "nah.. you can't";
+            return "nah.. you can't do this";
         }
         editedCard.setId(originalCard.getId());
         editedCard.setCreator(originalCard.getCreator());
