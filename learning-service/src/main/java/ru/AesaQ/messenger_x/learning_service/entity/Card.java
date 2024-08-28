@@ -11,7 +11,7 @@ public class Card {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "creator")
-    private String creater;
+    private String creator;
     @Column(name = "under-study")
     private String underStudy;
     @Column(name = "answer")
@@ -31,12 +31,12 @@ public class Card {
         return id;
     }
 
-    public String getCreater() {
-        return creater;
+    public String getCreator() {
+        return creator;
     }
 
-    public void setCreater(String creater) {
-        this.creater = creater;
+    public void setCreator(String creator) {
+        this.creator = creator;
     }
 
     public String getUnderStudy() {
