@@ -12,7 +12,7 @@ public class CardService {
         this.cardRepository = cardRepository;
     }
 
-    public void createCard(Card cardWithoutId) {
+    public String createCard(Card cardWithoutId) {
         Card card = new Card();
         card.setCreater(cardWithoutId.getCreater());
         card.setUnderStudy(cardWithoutId.getUnderStudy());
@@ -22,6 +22,7 @@ public class CardService {
         card.setExample3(cardWithoutId.getExample3());
 
         cardRepository.save(card);
+        return "ok";
     }
 
 }
