@@ -83,4 +83,9 @@ public class RecommendationService {
 
         return resultList;
     }
+
+    public String putCards(ArrayList<Card> cards) {
+        cardRepository.saveAll(cards);
+        return "ok";
+    }
 }
