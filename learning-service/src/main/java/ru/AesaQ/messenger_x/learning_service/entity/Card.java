@@ -2,8 +2,6 @@ package ru.AesaQ.messenger_x.learning_service.entity;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
-
 @Entity
 @Table(name = "cards")
 public class Card {
@@ -29,9 +27,9 @@ public class Card {
     @Column(name = "ebb_level")
     private int ebbLevel;
     @Column(name = "last_repeat")
-    private Date lastRepeat;
+    private String lastRepeat;
     @Column(name = "next_ebb_repeat")
-    private Date nextEbbRepeat;
+    private String nextEbbRepeat;
     @Column(name = "repeat_count")
     private int repeatCount;
 
@@ -107,19 +105,19 @@ public class Card {
         this.ebbLevel = ebbLevel;
     }
 
-    public Date getLastRepeat() {
+    public String getLastRepeat() {
         return lastRepeat;
     }
 
-    public void setLastRepeat(Date lastRepeat) {
+    public void setLastRepeat(String lastRepeat) {
         this.lastRepeat = lastRepeat;
     }
 
-    public Date getNextEbbRepeat() {
+    public String getNextEbbRepeat() {
         return nextEbbRepeat;
     }
 
-    public void setNextEbbRepeat(Date nextEbbRepeat) {
+    public void setNextEbbRepeat(String nextEbbRepeat) {
         this.nextEbbRepeat = nextEbbRepeat;
     }
 
