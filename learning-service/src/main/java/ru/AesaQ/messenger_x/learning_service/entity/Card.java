@@ -2,6 +2,8 @@ package ru.AesaQ.messenger_x.learning_service.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "cards")
 public class Card {
@@ -22,6 +24,16 @@ public class Card {
     private String example2;
     @Column(name = "example3")
     private String example3;
+    @Column(name = "memory_level")
+    private int memoryLevel;
+    @Column(name = "ebb_level")
+    private int ebbLevel;
+    @Column(name = "last_repeat")
+    private Date lastRepeat;
+    @Column(name = "next_ebb_repeat")
+    private Date nextEbbRepeat;
+    @Column(name = "repeat_count")
+    private int repeatCount;
 
     public void setId(Long id) {
         this.id = id;
@@ -77,5 +89,45 @@ public class Card {
 
     public void setExample3(String example3) {
         this.example3 = example3;
+    }
+
+    public int getMemoryLevel() {
+        return memoryLevel;
+    }
+
+    public void setMemoryLevel(int memoryLevel) {
+        this.memoryLevel = memoryLevel;
+    }
+
+    public int getEbbLevel() {
+        return ebbLevel;
+    }
+
+    public void setEbbLevel(int ebbLevel) {
+        this.ebbLevel = ebbLevel;
+    }
+
+    public Date getLastRepeat() {
+        return lastRepeat;
+    }
+
+    public void setLastRepeat(Date lastRepeat) {
+        this.lastRepeat = lastRepeat;
+    }
+
+    public Date getNextEbbRepeat() {
+        return nextEbbRepeat;
+    }
+
+    public void setNextEbbRepeat(Date nextEbbRepeat) {
+        this.nextEbbRepeat = nextEbbRepeat;
+    }
+
+    public int getRepeatCount() {
+        return repeatCount;
+    }
+
+    public void setRepeatCount(int repeatCount) {
+        this.repeatCount = repeatCount;
     }
 }
