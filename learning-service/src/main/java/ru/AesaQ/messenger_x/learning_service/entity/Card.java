@@ -2,6 +2,8 @@ package ru.AesaQ.messenger_x.learning_service.entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "cards")
 public class Card {
@@ -127,5 +129,32 @@ public class Card {
 
     public void setRepeatCount(int repeatCount) {
         this.repeatCount = repeatCount;
+    }
+
+    public void reset() {
+        setEbbLevel(1);
+    }
+
+    public void setNextEbbRepeat(int level) {
+        LocalDate nextRepeatDate;
+        switch (level) {
+            case 0:
+                setNextEbbRepeat("1970-01-01");
+            case 1:
+                nextRepeatDate = LocalDate.now().plusDays(1);
+                setNextEbbRepeat(nextRepeatDate.toString());
+            case 2:
+                nextRepeatDate = LocalDate.now().plusDays(3);
+                setNextEbbRepeat(nextRepeatDate.toString());
+            case 3:
+                nextRepeatDate = LocalDate.now().plusDays(7);
+                setNextEbbRepeat(nextRepeatDate.toString());
+            case 4:
+                nextRepeatDate = LocalDate.now().plusDays(14);
+                setNextEbbRepeat(nextRepeatDate.toString());
+            case 5:
+                nextRepeatDate = LocalDate.now().plusDays(30);
+                setNextEbbRepeat(nextRepeatDate.toString());
+        }
     }
 }
