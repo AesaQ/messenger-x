@@ -23,6 +23,7 @@ public class LearningController {
 
     @GetMapping("/take-cards")
     public ResponseEntity<?> takeCards(@RequestHeader("Authorization") String token) {
+        token = token.replace("Bearer ", "");
         String username;
         try {
             username = jwtUtil.extractUsername(token);
