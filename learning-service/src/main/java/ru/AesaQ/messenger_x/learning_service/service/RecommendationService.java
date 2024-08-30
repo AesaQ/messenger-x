@@ -5,10 +5,7 @@ import ru.AesaQ.messenger_x.learning_service.entity.Card;
 import ru.AesaQ.messenger_x.learning_service.repository.CardRepository;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class RecommendationService {
@@ -28,57 +25,83 @@ public class RecommendationService {
 
         LocalDate currentDate = LocalDate.now();
 
+        Iterator<Card> cardsIterator = cards.iterator();
+
         //Проверка знаний от Эббингауза
-        for (Card card : cards) {
+        while (cardsIterator.hasNext()) {
             if (resultList.size() >= count) {
                 break;
             }
+            Card card = cardsIterator.next();
             LocalDate nextEbbRepeatDate = LocalDate.parse(card.getNextEbbRepeat());
             if (currentDate.isAfter(nextEbbRepeatDate)) {
                 resultList.add(card);
+                cardsIterator.remove();
             }
         }
 
         //Если пользователь очень плохо помнит (или вообще не помнит) слово
         //memory_level = 1
-        for (Card card : cards) {
+        cardsIterator = cards.iterator();
+        while (cardsIterator.hasNext()) {
             if (resultList.size() >= count) {
                 break;
             }
+            Card card = cardsIterator.next();
+
             if (card.getMemoryLevel() == 1) {
                 resultList.add(card);
+                cardsIterator.remove();
+
             }
         }
+
         //Пользователь еле помнит слово
         //memory_level = 2
-        for (Card card : cards) {
+        cardsIterator = cards.iterator();
+        while (cardsIterator.hasNext()) {
             if (resultList.size() >= count) {
                 break;
             }
+            Card card = cardsIterator.next();
+
             if (card.getMemoryLevel() == 2) {
                 resultList.add(card);
+                cardsIterator.remove();
+
             }
         }
+
         //Если пользователь средне помнит слово
         //memory_level = 3
-        for (Card card : cards) {
+        cardsIterator = cards.iterator();
+        while (cardsIterator.hasNext()) {
             if (resultList.size() >= count) {
                 break;
             }
+            Card card = cardsIterator.next();
+
             if (card.getMemoryLevel() == 3) {
                 resultList.add(card);
+                cardsIterator.remove();
+
             }
         }
 
-        cards.sort(Comparator.comparing(Card::getLastRepeat));
-
         //по last_repeat
-        for (Card card : cards) {
+        cards.sort(Comparator.comparing(Card::getLastRepeat));
+        cardsIterator = cards.iterator();
+        while (cardsIterator.hasNext()) {
             if (resultList.size() >= count) {
                 break;
             }
+            Card card = cardsIterator.next();
+
             resultList.add(card);
+            cardsIterator.remove();
+
         }
+
         Collections.shuffle(resultList);
 
         return resultList;
