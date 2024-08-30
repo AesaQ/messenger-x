@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import ru.AesaQ.messenger_x.learning_service.entity.Card;
 import ru.AesaQ.messenger_x.learning_service.repository.CardRepository;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -23,7 +23,7 @@ public class RecommendationService {
 
         ArrayList<Card> resultList = new ArrayList<>();
 
-        LocalDate currentDate = LocalDate.now();
+        LocalDateTime currentDate = LocalDateTime.now();
 
         Iterator<Card> cardsIterator = cards.iterator();
 
@@ -33,7 +33,7 @@ public class RecommendationService {
                 break;
             }
             Card card = cardsIterator.next();
-            LocalDate nextEbbRepeatDate = LocalDate.parse(card.getNextEbbRepeat());
+            LocalDateTime nextEbbRepeatDate = LocalDateTime.parse(card.getNextEbbRepeat());
             if (currentDate.isAfter(nextEbbRepeatDate)) {
                 resultList.add(card);
                 cardsIterator.remove();
@@ -108,6 +108,30 @@ public class RecommendationService {
     }
 
     public String putCards(ArrayList<Card> cards) {
+        LocalDateTime currentDate = LocalDateTime.now();
+
+        for (Card card : cards) {
+            LocalDateTime nextEbbRepeatDate = LocalDateTime.parse(card.getNextEbbRepeat());
+            if (currentDate.isAfter(nextEbbRepeatDate)) {
+                if (card.getEbbLevel() == 0) {
+                    card.setEbbLevel(1);
+                }
+                switch (card.getMemoryLevel()) {
+                    case 1:
+                        card.setEbbLevel(0);
+                    case 2:
+                        card.setEbbLevel(1);
+                    case 3:
+                        card.setEbbLevel(card.getEbbLevel() - 1);
+                    case 4:
+                        card.setEbbLevel(card.getEbbLevel());
+                    case 5:
+                        card.setEbbLevel(card.getEbbLevel() + 1);
+                }
+
+            }
+        }
+
         cardRepository.saveAll(cards);
         return "ok";
     }
