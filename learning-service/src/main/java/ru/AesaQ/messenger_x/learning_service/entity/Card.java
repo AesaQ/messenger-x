@@ -2,7 +2,7 @@ package ru.AesaQ.messenger_x.learning_service.entity;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "cards")
@@ -102,11 +102,6 @@ public class Card {
     public int getEbbLevel() {
         return ebbLevel;
     }
-
-    public void setEbbLevel(int ebbLevel) {
-        this.ebbLevel = ebbLevel;
-    }
-
     public String getLastRepeat() {
         return lastRepeat;
     }
@@ -131,29 +126,28 @@ public class Card {
         this.repeatCount = repeatCount;
     }
 
-    public void reset() {
-        setEbbLevel(1);
-    }
+    public void setEbbLevel(int level) {
 
-    public void setNextEbbRepeat(int level) {
-        LocalDate nextRepeatDate;
+        this.ebbLevel = level;
+
+        LocalDateTime nextRepeatDate;
         switch (level) {
             case 0:
-                setNextEbbRepeat("1970-01-01");
+                setNextEbbRepeat("1970-01-01T00:00:00");
             case 1:
-                nextRepeatDate = LocalDate.now().plusDays(1);
+                nextRepeatDate = LocalDateTime.now().plusDays(1);
                 setNextEbbRepeat(nextRepeatDate.toString());
             case 2:
-                nextRepeatDate = LocalDate.now().plusDays(3);
+                nextRepeatDate = LocalDateTime.now().plusDays(3);
                 setNextEbbRepeat(nextRepeatDate.toString());
             case 3:
-                nextRepeatDate = LocalDate.now().plusDays(7);
+                nextRepeatDate = LocalDateTime.now().plusDays(7);
                 setNextEbbRepeat(nextRepeatDate.toString());
             case 4:
-                nextRepeatDate = LocalDate.now().plusDays(14);
+                nextRepeatDate = LocalDateTime.now().plusDays(14);
                 setNextEbbRepeat(nextRepeatDate.toString());
             case 5:
-                nextRepeatDate = LocalDate.now().plusDays(30);
+                nextRepeatDate = LocalDateTime.now().plusDays(30);
                 setNextEbbRepeat(nextRepeatDate.toString());
         }
     }
