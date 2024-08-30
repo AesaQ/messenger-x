@@ -1,24 +1,19 @@
 package ru.AesaQ.messenger_x.learning_service.service;
 
-import io.jsonwebtoken.Jwts;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import ru.AesaQ.messenger_x.learning_service.entity.Card;
 import ru.AesaQ.messenger_x.learning_service.repository.CardRepository;
-import ru.AesaQ.messenger_x.learning_service.util.JwtUtil;
 
 @Service
 public class CardService {
     private final CardRepository cardRepository;
-    private final JwtUtil jwtUtil;
 
-    public CardService(CardRepository cardRepository, JwtUtil jwtUtil) {
+    public CardService(CardRepository cardRepository) {
         this.cardRepository = cardRepository;
-        this.jwtUtil = jwtUtil;
     }
 
-    public String createCard(Card cardWithoutId, String token) {
-        String creator = jwtUtil.extractUsername(token);
+    public String createCard(Card cardWithoutId, String creator) {
 
         Card card = new Card();
 
@@ -34,18 +29,8 @@ public class CardService {
     }
 
     @Transactional
-    public String removeCard(Long id, String token) {
+    public String removeCard(Long id, String username) {
         Card card = cardRepository.getCardById(id);
-        String username = "";
-        try {
-            username = Jwts.parser()
-                    .setSigningKey("secret")
-                    .parseClaimsJws(token)
-                    .getBody()
-                    .getSubject();
-        } catch (Exception e) {
-            return "Something went wrong...";
-        }
         if (!card.getCreator().equals(username)) {
             return "nah.. you can't do this";
         }
@@ -53,9 +38,7 @@ public class CardService {
         return "ok";
     }
 
-    public String editCard(Long id, Card editedCard, String token) {
-        String editor = jwtUtil.extractUsername(token);
-
+    public String editCard(Long id, Card editedCard, String editor) {
         Card originalCard = cardRepository.getCardById(id);
 
         if (!originalCard.getCreator().equals(editor)) {
