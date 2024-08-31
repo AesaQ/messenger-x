@@ -135,18 +135,21 @@ public class Card {
             case 0:
                 setNextEbbRepeat("1970-01-01T00:00:00");
             case 1:
-                nextRepeatDate = LocalDateTime.now().plusDays(1);
+                nextRepeatDate = LocalDateTime.now().plusMinutes(30);
                 setNextEbbRepeat(nextRepeatDate.toString());
             case 2:
-                nextRepeatDate = LocalDateTime.now().plusDays(3);
+                nextRepeatDate = LocalDateTime.now().plusDays(1);
                 setNextEbbRepeat(nextRepeatDate.toString());
             case 3:
-                nextRepeatDate = LocalDateTime.now().plusDays(7);
+                nextRepeatDate = LocalDateTime.now().plusDays(3);
                 setNextEbbRepeat(nextRepeatDate.toString());
             case 4:
-                nextRepeatDate = LocalDateTime.now().plusDays(14);
+                nextRepeatDate = LocalDateTime.now().plusDays(7);
                 setNextEbbRepeat(nextRepeatDate.toString());
             case 5:
+                nextRepeatDate = LocalDateTime.now().plusDays(14);
+                setNextEbbRepeat(nextRepeatDate.toString());
+            case 6:
                 nextRepeatDate = LocalDateTime.now().plusDays(30);
                 setNextEbbRepeat(nextRepeatDate.toString());
         }
