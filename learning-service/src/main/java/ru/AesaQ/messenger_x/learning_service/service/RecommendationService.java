@@ -107,7 +107,7 @@ public class RecommendationService {
         return resultList;
     }
 
-    public String putCards(ArrayList<Card> cards) {
+    public void putCards(List<Card> cards) {
         LocalDateTime currentDate = LocalDateTime.now();
 
         for (Card card : cards) {
@@ -131,8 +131,6 @@ public class RecommendationService {
 
             }
         }
-
         cardRepository.saveAll(cards);
-        return "ok";
     }
 }
