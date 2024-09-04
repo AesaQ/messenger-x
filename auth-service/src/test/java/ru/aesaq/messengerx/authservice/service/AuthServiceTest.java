@@ -7,13 +7,20 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.aesaq.messengerx.authservice.entity.User;
 import ru.aesaq.messengerx.authservice.repository.UserRepository;
+import ru.aesaq.messengerx.authservice.util.JwtUtil;
 import ru.aesaq.messengerx.authservice.validator.AuthValidator;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -24,8 +31,13 @@ public class AuthServiceTest {
     private AuthValidator authValidator;
     @Mock
     private PasswordEncoder passwordEncoder;
+    @Mock
+    private JwtUtil jwtUtil;
+    @Mock
+    private AuthenticationManager authenticationManager;
     @InjectMocks
     private AuthService authService;
+
 
     @Test
     public void testRegister_UsernameExists() {
@@ -73,5 +85,32 @@ public class AuthServiceTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
         assertThat(response.getBody()).isEqualTo("password is not ok");
     }
+
+    @Test
+    public void testLogin_invalidUsernameOrPassword() {
+        AuthenticationRequest request = new AuthenticationRequest();
+        when(authenticationManager.authenticate(any())).thenThrow(new BadCredentialsException(""));
+
+        ResponseEntity<?> response = authService.login(request);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+        assertThat(response.getBody()).isEqualTo("Invalid username or password");
+    }
+
+    @Test
+    public void testLogin_success() {
+        AuthenticationRequest request = new AuthenticationRequest();
+        request.setUsername("q");
+        Authentication authentication = mock(Authentication.class);
+        when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
+                .thenReturn(authentication);
+        when(jwtUtil.generateToken(anyString())).thenReturn("generatedJwtToken");
+
+        ResponseEntity<?> response = authService.login(request);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody().toString()).isEqualTo(new AuthenticationResponse("generatedJwtToken").toString());
+    }
+
 
 }
