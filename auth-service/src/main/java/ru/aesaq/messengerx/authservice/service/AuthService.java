@@ -30,15 +30,17 @@ public class AuthService {
     public ResponseEntity<?> register(User user) {
         String validateUsernameResult = authValidator.validateUsername(user.getUsername());
         String validatePasswordResult = authValidator.validatePassword(user.getPassword());
-        if (validateUsernameResult != "ok") {
-            return ResponseEntity.badRequest().body(validateUsernameResult);
-        }
+
         if (userRepository.existsByUsername(user.getUsername())) {
             return ResponseEntity.badRequest().body("username already exists");
+        }
+        if (validateUsernameResult != "ok") {
+            return ResponseEntity.badRequest().body(validateUsernameResult);
         }
         if (validatePasswordResult != "ok") {
             return ResponseEntity.badRequest().body(validatePasswordResult);
         }
+
         String hashedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(hashedPassword);
         User registeredUser = userRepository.save(user);
