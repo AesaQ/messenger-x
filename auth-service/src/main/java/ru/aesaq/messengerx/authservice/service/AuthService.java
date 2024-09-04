@@ -69,6 +69,11 @@ class AuthenticationResponse {
         this.jwt = jwt;
     }
 
+    @Override
+    public String toString() {
+        return getJwt();
+    }
+
     public String getJwt() {
         return jwt;
     }
