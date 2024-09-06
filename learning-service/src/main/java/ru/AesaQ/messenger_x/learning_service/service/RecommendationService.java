@@ -15,7 +15,7 @@ public class RecommendationService {
         this.cardRepository = cardRepository;
     }
 
-    public List<Card> takeCards(int count, String creator) {
+    public List<Card> takeCards(int count, String creator, boolean isShuffle) {
 
         List<Card> cards = cardRepository.getCardsByCreator(creator);
 
@@ -101,8 +101,9 @@ public class RecommendationService {
             cardsIterator.remove();
 
         }
-
-        Collections.shuffle(resultList);
+        if (isShuffle) {
+            Collections.shuffle(resultList);
+        }
 
         return resultList;
     }

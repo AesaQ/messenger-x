@@ -30,7 +30,7 @@ public class LearningController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("you are not logged in");
         }
-        return ResponseEntity.ok(recommendationService.takeCards(15, username));
+        return ResponseEntity.ok(recommendationService.takeCards(15, username, true));
     }
 
     @PostMapping("/put-cards")
