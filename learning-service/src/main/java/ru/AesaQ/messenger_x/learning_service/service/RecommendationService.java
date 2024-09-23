@@ -129,8 +129,8 @@ public class RecommendationService {
                     case 5:
                         card.setEbbLevel(card.getEbbLevel() + 1);
                 }
-
             }
+            card.setLastRepeat(currentDate.toString());
         }
         cardRepository.saveAll(cards);
     }
