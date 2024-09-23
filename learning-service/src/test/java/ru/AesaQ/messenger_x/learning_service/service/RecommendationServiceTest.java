@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -54,15 +55,75 @@ public class RecommendationServiceTest {
 
         List<Card> result = recommendationService.takeCards(15, "test", false);
 
-        assertThat(result.size()).isEqualTo(9);
-
-        long index = 0;
+        LocalDateTime currentTime = LocalDateTime.now();
+        LocalDateTime lastDateOfEbbRepeat = null;
+        Card lastCard = null;
         for (Card card : result) {
-            ++index;
-            assertThat(card.getId()).isEqualTo(index);
+
+            if (LocalDateTime.parse(card.getNextEbbRepeat()).isBefore(currentTime)) {
+                if (lastDateOfEbbRepeat == null) {
+                    lastDateOfEbbRepeat = LocalDateTime.parse(card.getNextEbbRepeat());
+
+                    assertThat(lastCard).isEqualTo(null);
+                } else {
+                    if (!LocalDateTime.parse(card.getNextEbbRepeat()).isEqual(lastDateOfEbbRepeat)) {
+                        assertThat(LocalDateTime.parse(card.getNextEbbRepeat())).isAfter(lastDateOfEbbRepeat);
+                    }
+                }
+                lastCard = card;
+                continue;
+            }
+            if (lastCard == null) {
+                lastCard = card;
+                continue;
+            }
+            if (card.getMemoryLevel() == 1) {
+                if (isCardOfEbbRepeat(lastCard)) {
+                    lastCard = card;
+                    continue;
+                }
+                if (lastCard.getMemoryLevel() > 1) {
+                    fail("lastCard's memory level: " + lastCard.getMemoryLevel() + "; currentCard's memory level is 1");
+                }
+                lastCard = card;
+                continue;
+            } else if (card.getMemoryLevel() == 2) {
+                if (isCardOfEbbRepeat(lastCard)) {
+                    lastCard = card;
+                    continue;
+                }
+                if (lastCard.getMemoryLevel() > 2) {
+                    fail("lastCard's memory level: " + lastCard.getMemoryLevel() + "; currentCard's memory level is 2");
+                }
+                lastCard = card;
+                continue;
+            } else if (card.getMemoryLevel() == 3) {
+                if (isCardOfEbbRepeat(lastCard)) {
+                    lastCard = card;
+                    continue;
+                }
+                if (lastCard.getMemoryLevel() > 3) {
+                    fail("lastCard's memory level: " + lastCard.getMemoryLevel() + "; currentCard's memory level is 3");
+                }
+                lastCard = card;
+                continue;
+            }
+            if (card.getMemoryLevel() >= 4) {
+                if (lastCard.getMemoryLevel() <= 3) {
+                    lastCard = card;
+                    continue;
+                }
+                assertThat(LocalDateTime.parse(card.getLastRepeat())
+                        .isAfter(LocalDateTime.parse(lastCard.getLastRepeat())));
+                lastCard = card;
+            }
         }
     }
 
+    private boolean isCardOfEbbRepeat(Card card) {
+        LocalDateTime currentTime = LocalDateTime.now();
+        return LocalDateTime.parse(card.getNextEbbRepeat()).isBefore(currentTime);
+    }
 
     private ArrayList<Card> addNewCard(ArrayList<Card> elementsList, int memoryLevel, int ebbLevel, boolean nextEbbRepeatIsPast, String lastRepeat) {
         long maxListNumber = 0;
