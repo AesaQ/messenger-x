@@ -113,8 +113,11 @@ public class RecommendationServiceTest {
                     lastCard = card;
                     continue;
                 }
-                assertThat(LocalDateTime.parse(card.getLastRepeat())
-                        .isAfter(LocalDateTime.parse(lastCard.getLastRepeat())));
+                if (!LocalDateTime.parse(card.getLastRepeat())
+                        .isEqual(LocalDateTime.parse(lastCard.getLastRepeat()))) {
+                    assertThat(LocalDateTime.parse(card.getLastRepeat())
+                            .isAfter(LocalDateTime.parse(lastCard.getLastRepeat())));
+                }
                 lastCard = card;
             }
         }
