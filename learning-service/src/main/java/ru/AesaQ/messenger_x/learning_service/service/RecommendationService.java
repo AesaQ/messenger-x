@@ -120,14 +120,23 @@ public class RecommendationService {
                 switch (card.getMemoryLevel()) {
                     case 1:
                         card.setEbbLevel(0);
+                        break;
                     case 2:
                         card.setEbbLevel(1);
+                        break;
                     case 3:
-                        card.setEbbLevel(card.getEbbLevel() - 1);
+                        if (card.getEbbLevel() != 1) {
+                            card.setEbbLevel(card.getEbbLevel() - 1);
+                        } else {
+                            card.setEbbLevel(card.getEbbLevel());
+                        }
+                        break;
                     case 4:
                         card.setEbbLevel(card.getEbbLevel());
+                        break;
                     case 5:
                         card.setEbbLevel(card.getEbbLevel() + 1);
+                        break;
                 }
             }
             card.setLastRepeat(currentDate.toString());
