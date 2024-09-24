@@ -2,6 +2,8 @@ package ru.AesaQ.messenger_x.learning_service.service;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -16,6 +18,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -24,6 +27,8 @@ public class RecommendationServiceTest {
     private CardRepository cardRepository;
     @InjectMocks
     private RecommendationService recommendationService;
+    @Captor
+    private ArgumentCaptor<List<Card>> cardsCaptor;
 
     @Test
     public void testTakeCards() {
@@ -119,6 +124,42 @@ public class RecommendationServiceTest {
                             .isAfter(LocalDateTime.parse(lastCard.getLastRepeat())));
                 }
                 lastCard = card;
+            }
+        }
+    }
+
+    @Test
+    public void testPutCards() {
+        ArrayList<Card> cards = new ArrayList<>();
+        cards = addNewCard(cards, 1, 3, true, LocalDateTime.now().minusMinutes(5).toString());
+        cards = addNewCard(cards, 2, 3, true, LocalDateTime.now().minusMinutes(5).toString());
+        cards = addNewCard(cards, 3, 3, true, LocalDateTime.now().minusMinutes(5).toString());
+        cards = addNewCard(cards, 4, 3, true, LocalDateTime.now().minusMinutes(5).toString());
+        cards = addNewCard(cards, 5, 3, true, LocalDateTime.now().minusMinutes(5).toString());
+
+        Collections.shuffle(cards);
+
+        recommendationService.putCards(cards);
+
+        verify(cardRepository).saveAll(cardsCaptor.capture());
+        List<Card> savedCards = cardsCaptor.getValue();
+        for (Card card : savedCards) {
+            switch (card.getMemoryLevel()) {
+                case 1:
+                    assertThat(card.getEbbLevel()).isEqualTo(0);
+                    break;
+                case 2:
+                    assertThat(card.getEbbLevel()).isEqualTo(1);
+                    break;
+                case 3:
+                    assertThat(card.getEbbLevel()).isEqualTo(2);
+                    break;
+                case 4:
+                    assertThat(card.getEbbLevel()).isEqualTo(3);
+                    break;
+                case 5:
+                    assertThat(card.getEbbLevel()).isEqualTo(4);
+                    break;
             }
         }
     }
