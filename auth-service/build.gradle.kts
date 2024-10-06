@@ -1,10 +1,10 @@
 plugins {
     java
-    id("org.springframework.boot") version "3.3.2"
+    id("org.springframework.boot") version "3.3.3"
     id("io.spring.dependency-management") version "1.1.6"
 }
 
-group = "ru.aesaq.messenger-x"
+group = "ru.aesaq.messengerx"
 version = "0.0.1-SNAPSHOT"
 
 java {
@@ -17,6 +17,9 @@ configurations {
     compileOnly {
         extendsFrom(configurations.annotationProcessor.get())
     }
+}
+tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
+    mainClass.set("ru.aesaq.messengerx.authservice.AuthServiceApplication")
 }
 
 repositories {

@@ -4,13 +4,16 @@ plugins {
 	id("io.spring.dependency-management") version "1.1.6"
 }
 
-group = "ru.AesaQ.messenger-x"
+group = "ru.AesaQ.messenger_x"
 version = "0.0.1-SNAPSHOT"
 
 java {
 	toolchain {
 		languageVersion.set(JavaLanguageVersion.of(17))
 	}
+}
+tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
+	mainClass.set("ru.AesaQ.messenger_x.learning_service.LearningServiceApplication")
 }
 
 configurations {
