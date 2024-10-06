@@ -23,6 +23,8 @@ public class CardService {
         card.setExample1(cardWithoutId.getExample1());
         card.setExample2(cardWithoutId.getExample2());
         card.setExample3(cardWithoutId.getExample3());
+        card.setEbbLevel(0);
+        card.setMemoryLevel(1);
 
         cardRepository.save(card);
         return "ok";
