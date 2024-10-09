@@ -9,6 +9,8 @@ services:
       - SPRING_PROFILES_ACTIVE=docker
     depends_on:
       - database
+    networks:
+      - main-network
 
   learning-service:
     build:
@@ -19,6 +21,8 @@ services:
       - SPRING_PROFILES_ACTIVE=docker
     depends_on:
       - database
+    networks:
+      - main-network
 
   leaderboard-service:
     build:
@@ -31,6 +35,8 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - SPRING_REDIS_HOST=redis
+    networks:
+      - main-network
 
   database:
     image: postgres:13
@@ -40,6 +46,18 @@ services:
       POSTGRES_DB: messenger-x
     ports:
       - 5432:5432
+    networks:
+      - main-network
 
   redis:
-    image: "redis:alpine"
+    image: "redis:latest"
+    ports:
+      - "6379:6379"
+    networks:
+      - main-network
+    environment:
+      - REDIS_PASSWORD=root
+
+networks:
+  main-network:
+    driver: bridge
