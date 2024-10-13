@@ -47,6 +47,7 @@ services:
       - database
     networks:
       - main-network
+
   leaderboard-service:
     build:
       context: ./leaderboard-service
