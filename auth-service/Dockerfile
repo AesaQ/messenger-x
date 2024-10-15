@@ -2,13 +2,15 @@ FROM openjdk:17-jdk-slim
 
 WORKDIR /app
 
-COPY gradlew gradlew
-COPY gradle gradle
-COPY build.gradle.kts .
-COPY settings.gradle.kts .
-RUN ./gradlew clean build -x test --info
+COPY . .
 
-COPY src/ ./src
+COPY gradlew .
+COPY gradlew.bat .
+
+RUN chmod +x gradlew
+RUN ls -l /app
+RUN ./gradlew clean build -x test --info
 RUN ./gradlew bootJar
+
 
 CMD ["java", "-jar", "build/libs/auth-service-0.0.1-SNAPSHOT.jar"]
