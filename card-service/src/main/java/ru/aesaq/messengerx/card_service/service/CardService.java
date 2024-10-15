@@ -48,6 +48,7 @@ public class CardService {
         }
         editedCard.setId(originalCard.getId());
         editedCard.setCreator(originalCard.getCreator());
+        editedCard.setNextEbbRepeat(originalCard.getNextEbbRepeat());
         cardRepository.save(editedCard);
         return "";
     }
