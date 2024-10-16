@@ -1,5 +1,17 @@
 services:
 
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - 8088:80
+    networks:
+      - main-network
+    volumes:
+      - ./frontend:/usr/local/apache2/htdocs/
+  #      - ./frontend/main:/usr/local/apache2/htdocs/
+
+
   auth-service:
     build:
       context: ./auth-service
