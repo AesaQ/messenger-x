@@ -9,8 +9,6 @@ services:
       - main-network
     volumes:
       - ./frontend:/usr/local/apache2/htdocs/
-  #      - ./frontend/main:/usr/local/apache2/htdocs/
-
 
   auth-service:
     build:
