@@ -16,6 +16,8 @@ public class User {
     private String password;
     @Column(name = "profile_picture")
     private String profile_picture;
+    @Column(name = "ebb_level")
+    private int ebbLevel;
 
     public User(String username, String password, String profile_picture) {
         this.username = username;
@@ -24,6 +26,22 @@ public class User {
     }
 
     public User() {
+    }
+
+    public String getProfile_picture() {
+        return profile_picture;
+    }
+
+    public void setProfile_picture(String profile_picture) {
+        this.profile_picture = profile_picture;
+    }
+
+    public int getEbbLevel() {
+        return ebbLevel;
+    }
+
+    public void setEbbLevel(int ebbLevel) {
+        this.ebbLevel = ebbLevel;
     }
 
     public Long getId() {
