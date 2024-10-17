@@ -34,6 +34,16 @@ public class Card {
     private String nextEbbRepeat;
     @Column(name = "repeat_count")
     private int repeatCount;
+    @Column(name = "remembering_time")
+    private int rememberingTime;
+
+    public int getRememberingTime() {
+        return rememberingTime;
+    }
+
+    public void setRememberingTime(int rememberingTime) {
+        this.rememberingTime = rememberingTime;
+    }
 
     public void setId(Long id) {
         this.id = id;
